@@ -1,0 +1,72 @@
+apply plugin: 'com.android.application'
+android {
+    signingConfigs {
+        config {
+            keyAlias 'eeepay'
+            keyPassword 'eeepay'
+            storeFile file('androidkeystore1.jks')
+            storePassword 'eeepay'
+        }
+    }
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "channel.demo.zzq.cn.eeepay.com.appchannel"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        ndk {
+            //设置支持的so库
+            abiFilters "armeabi", "x86"
+        }
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //版本名后面添加一句话，意思就是flavor dimension 它的维度就是该版本号，这样维度就是都是统一的了
+        flavorDimensions "versionCode"
+    }
+    lintOptions {
+        abortOnError false
+    }
+    buildTypes {
+        release {
+            //资源压缩只与代码压缩协同工作,如果一个开启；另一个未开启；会宝错误
+            //Error:Removing unused resources requires unused code shrinking to be turned on. See http://d.android.com/r/tools/shrink-resources.html for more information.
+            minifyEnabled false
+            // 不显示Log
+            buildConfigField "boolean", "DEBUG_MODEL", "true"
+            shrinkResources false //移除无用的资源
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+            zipAlignEnabled false
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false //移除无用的资源
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // 显示Log
+            buildConfigField "boolean", "DEBUG_MODEL", "true"
+            signingConfig signingConfigs.config
+            zipAlignEnabled false
+        }
+    }
+    /**
+     * 多渠道；打包；比如现在有2个
+     */
+    productFlavors {
+        oem1 {
+            applicationId 'channel.demo.zzq.cn.eeepay.com.appchannel.oem1'
+        }
+        oem2 {
+            applicationId 'channel.demo.zzq.cn.eeepay.com.appchannel.oem2'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
