@@ -55,11 +55,40 @@ android {
     productFlavors {
         oem1 {
             applicationId 'channel.demo.zzq.cn.eeepay.com.appchannel.oem1'
+            //add by zhuangzeqin 2017年11月16日 16:31:06 定义oem 生成的目录名称
+//            manifestPlaceholders = [app_icon          : "@drawable/icon_logo",
+//                                    app_name          : "${appName}-测试",
+//                                    umeng_channel     : "test"]
+            manifestPlaceholders = [app_name: "oem1"]//每新增一个OEM 这里需要定义一下
         }
         oem2 {
             applicationId 'channel.demo.zzq.cn.eeepay.com.appchannel.oem2'
+            manifestPlaceholders = [app_name: "oem2"]//每新增一个OEM 这里需要定义一下
         }
     }
+
+    /**
+     * add by zhuangzeqin 2017年9月18日12:36:32 为了方便； 以后不用手动去修改生成的apk 名称； 将自动生成apk 名称
+     *
+     */
+//    android.applicationVariants.all { variant ->
+//        variant.outputs.each { output ->
+//            //生成自定义 App 名称
+//            if (variant.buildType.name.equals("release")) {
+//                def appName = "" + variant.productFlavors.name + "_v" + variant.productFlavors.versionName + "_" + new Date().format("yyyyMMdd_HHmm") + ".apk"
+//                def appName2 = appName.replace("[", "");
+//                def appName3 = appName2.replace("]", "");
+//                //add by zhuangzeqin 2017年11月16日 17:42:11 自定义生成目录--根据不同的渠道项目名称去生成目录
+//                def version = "v" + variant.productFlavors.versionName;//版本号
+//                def channel_name = variant.productFlavors.manifestPlaceholders.getAt("app_name").toString();//渠道的项目名称
+//                def dirName = output.outputFile.parent + "/" + channel_name + "/" + version;//目录生成
+//                def dirNameTimp = dirName.replace("[", "");
+//                def dirNameLast = dirNameTimp.replace("]", "");
+//                output.outputFile = new File(dirNameLast, appName3);
+//            }
+//
+//        }
+//    }
 }
 
 dependencies {
